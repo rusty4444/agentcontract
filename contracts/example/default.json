@@ -1,0 +1,13 @@
+{
+  "version": "1.0",
+  "agent_id": "my-agent",
+  "description": "Default development contract — permissive until tightened",
+  "allow_tools": null,
+  "deny_tools": [],
+  "allow_paths": null,
+  "deny_paths": [],
+  "allow_network": true,
+  "max_cost_per_action_cents": null,
+  "require_approval": [],
+  "max_iterations": null
+}

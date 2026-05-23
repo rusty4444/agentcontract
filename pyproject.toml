@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agentcontract"
+version = "0.1.0"
+description = "JSON-native agent capability contracts and a pre-execution gate for any LLM runtime"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [{ name = "Rusty4444" }]
+keywords = [
+    "ai-agent",
+    "llm",
+    "governance",
+    "policy",
+    "security",
+    "contracts",
+    "guardrails",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "pydantic>=2.9.0",
+    "click>=8.1.0",
+    "rich>=13.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+    "types-click",
+]
+
+[project.scripts]
+agc = "agentcontract.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["agentcontract"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
