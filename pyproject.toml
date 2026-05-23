@@ -40,7 +40,6 @@ dev = [
     "pytest-cov",
     "ruff",
     "mypy",
-    "types-click",
 ]
 
 [project.scripts]

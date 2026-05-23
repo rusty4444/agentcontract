@@ -30,7 +30,7 @@ jobs:
 
       - name: Type-check (mypy)
         run: |
-          pip install mypy types-click
+          pip install mypy
           mypy agentcontract --strict
 
       - name: Test (pytest)
