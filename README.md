@@ -11,7 +11,10 @@ raw OpenAI function-calling) calls before every action.
 agc init default-contract        # scaffold a contract
 agc validate contracts/default.json
 agc gate contracts/default.json --action '{"tool_name":"shell","estimated_cost_cents":0}'
+agc gui                          # local browser GUI for setup + dry-runs
 ```
+
+![agentcontract local setup GUI](docs/assets/agentcontract-gui.png)
 
 Philosophy: contracts live in version control, can be audited in CI, and work over JavaScript and every LLM framework today.
 
@@ -46,6 +49,9 @@ pip install agentcontract
 # Create a contract in your project or Hermes skill dir
 agc init my-agent --hermes
 
+# Open the local GUI to edit, validate, save, and dry-run gate decisions
+agc gui
+
 # Validate before committing
 agc validate ~/.hermes/contracts/my-agent.json
 
@@ -53,6 +59,16 @@ agc validate ~/.hermes/contracts/my-agent.json
 agc gate ~/.hermes/contracts/my-agent.json \
     --action '{"tool_name":"shell","estimated_cost_cents":0}'
 ```
+
+### Browser GUI
+
+`agc gui` starts a localhost-only setup app at `http://127.0.0.1:8765/` with no
+extra dependencies. Use it to:
+
+- edit the contract JSON with a production-safe starter template;
+- validate schema and cross-field rules before saving;
+- dry-run an action payload and see `ALLOW`, `BLOCK`, or `REQUIRE_APPROVAL`;
+- save the resulting contract to your project or `~/.hermes/contracts/` path.
 
 ---
 
@@ -65,7 +81,7 @@ agc gate ~/.hermes/contracts/my-agent.json \
   "description": "Development sandbox contract",
   "allow_tools": ["shell", "read_file", "write_file"],
   "deny_tools": ["execute_code"],
-  "allow_paths": ["/Users/sam.russell/dev/"],
+  "allow_paths": ["~/dev/"],
   "deny_paths": ["~/.ssh/", "~/.hermes/.env"],
   "allow_network": false,
   "max_cost_per_action_cents": 100,

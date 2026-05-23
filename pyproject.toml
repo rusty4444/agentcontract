@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "agentcontract"
-version = "0.1.0"
+version = "0.0.1"
 description = "JSON-native agent capability contracts and a pre-execution gate for any LLM runtime"
 readme = "README.md"
 license = "MIT"

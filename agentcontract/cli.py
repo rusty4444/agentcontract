@@ -6,9 +6,10 @@ agentcontract.cli
 
 Commands
 --------
-agc init     Create starter contract in CWD or Hermes skill dir
+agc init      Create starter contract in CWD or Hermes skill dir
 agc validate  Validate a contract file and print result
 agc gate      Dry-run a tool-call against a contract
+agc gui       Launch the local browser setup GUI
 agc audit     Print / tail audit log
 agc schema    Emit JSON Schema to stdout
 """
@@ -18,7 +19,6 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
-from typing import Optional
 
 import click
 from rich.console import Console
@@ -30,7 +30,6 @@ from .core import (
     Contract,
     GateDecision,
     GateResult,
-    GateViolation,
     contract_to_json_schema,
     gate,
 )
@@ -177,6 +176,19 @@ def gate_cmd(
     )
 
     _print_result(result)
+
+
+# ── agc gui ──────────────────────────────────────────────────────────────────
+
+@app.command("gui")
+@click.option("--host", default="127.0.0.1", show_default=True, help="Bind host")
+@click.option("--port", default=8765, show_default=True, type=int, help="Bind port")
+@click.option("--no-open", is_flag=True, help="Do not open a browser automatically")
+def gui_cmd(host: str, port: int, no_open: bool) -> None:
+    """Launch the local browser GUI for setup, validation, and gate testing."""
+    from .gui import launch_gui
+
+    launch_gui(host=host, port=port, open_browser=not no_open)
 
 
 # ── agc audit ────────────────────────────────────────────────────────────────

@@ -6,11 +6,7 @@ Core schema and execution-gate engine.
 
 from __future__ import annotations
 
-import json
-import os
-import re
 from enum import Enum
-from pathlib import Path
 from typing import Any
 
 from pydantic import BaseModel, Field, field_validator, model_validator

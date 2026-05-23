@@ -1,8 +1,6 @@
 """Smoke tests: core gate() logic and CLI."""
 from __future__ import annotations
 
-import json, sys, os
-from pathlib import Path
 
 import pytest
 
@@ -10,13 +8,10 @@ from agentcontract.core import (
     ActionContext,
     Contract,
     GateDecision,
-    GateResult,
-    GateViolation,
     contract_to_json_schema,
     gate,
     _path_matches,
 )
-from agentcontract.sdk import HermesMCPFormatter
 
 
 # ── Contract model basics ────────────────────────────────────────────────────
@@ -116,15 +111,15 @@ def test_block_deny_paths():
 
 
 def test_block_path_not_in_allow_paths():
-    c = Contract(agent_id="fwl", allow_paths=["/Users/sam.russell/dev/"])
+    c = Contract(agent_id="fwl", allow_paths=["/workspace/"])
     r = gate(c, ActionContext(tool_name="rf", paths_touched=["/tmp/x"]))
     assert r.decision == GateDecision.BLOCK
     assert r.violations[0].field == "allow_paths"
 
 
 def test_allow_clean_path():
-    c = Contract(agent_id="ok", allow_paths=["/Users/sam.russell/dev/"])
-    r = gate(c, ActionContext(tool_name="rf", paths_touched=["/Users/sam.russell/dev/s.py"]))
+    c = Contract(agent_id="ok", allow_paths=["/workspace/"])
+    r = gate(c, ActionContext(tool_name="rf", paths_touched=["/workspace/s.py"]))
     assert r.decision == GateDecision.ALLOW
 
 
