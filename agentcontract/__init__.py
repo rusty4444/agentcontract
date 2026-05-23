@@ -19,6 +19,7 @@ from agentcontract.core import (
     contract_to_json_schema,
     gate,
 )
+from agentcontract.sdk import HermesMCPContext, HermesMCPFormatter
 
 __all__ = [
     "Contract",
@@ -27,6 +28,8 @@ __all__ = [
     "GateError",
     "GateResult",
     "GateViolation",
+    "HermesMCPContext",
+    "HermesMCPFormatter",
     "contract_to_json_schema",
     "gate",
 ]

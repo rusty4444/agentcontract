@@ -1,0 +1,61 @@
+# .github/workflows/ci.yml
+name: agentcontract CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Lint (ruff)
+        run: |
+          pip install ruff
+          ruff check agentcontract tests
+
+      - name: Type-check (mypy)
+        run: |
+          pip install mypy types-click
+          mypy agentcontract --strict
+
+      - name: Test (pytest)
+        run: |
+          python -m pytest tests/ -v --tb=short
+
+      - name: Contract schema smoke test
+        run: |
+          python -c "
+          from agentcontract.core import Contract, contract_to_json_schema
+          from agentcontract.sdk import HermesMCPFormatter, HermesMCPContext
+          from agentcontract.core import ActionContext, GateDecision, gate
+
+          c = Contract(agent_id='ci', allow_tools=['shell'])
+          assert c.version == '1.0'
+
+          schema = contract_to_json_schema()
+          assert '\$schema' in schema and '\$id' in schema
+
+          fmt = HermesMCPFormatter(c)
+          ctx = HermesMCPContext(context=ActionContext(tool_name='shell'))
+          result = gate(c, ctx.context)
+          assert result.decision == GateDecision.ALLOW
+
+          rejection = fmt.format_gate_rejection(result)
+          assert rejection['decision'] == 'allow'
+          print('CI smoke test passed')
+          "
