@@ -19,11 +19,19 @@ from agentcontract.core import (
     contract_to_json_schema,
     gate,
 )
+from agentcontract.enforcement import (
+    AuditTrail,
+    ContractEnforcer,
+    ContractViolation,
+)
 from agentcontract.sdk import HermesMCPContext, HermesMCPFormatter
 
 __all__ = [
-    "Contract",
     "ActionContext",
+    "AuditTrail",
+    "Contract",
+    "ContractEnforcer",
+    "ContractViolation",
     "GateDecision",
     "GateError",
     "GateResult",
