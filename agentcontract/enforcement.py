@@ -15,7 +15,6 @@ Import::from agentcontract.enforcement import (
 
 from __future__ import annotations
 
-import json
 import threading
 from contextlib import contextmanager
 from datetime import datetime, timezone
@@ -27,7 +26,6 @@ from agentcontract.core import (
     Contract,
     GateDecision,
     GateResult,
-    GateViolation,
     gate,
 )
 from agentcontract.sdk import HermesMCPContext, HermesMCPFormatter
@@ -61,7 +59,7 @@ def _load_contract_from_path(path: str | Path) -> Contract:
     suffix = p.suffix.lower()
     if suffix in (".yml", ".yaml"):
         try:
-            import yaml  # type: ignore
+            import yaml
 
             data = yaml.safe_load(p.read_text())
             if data is None:
@@ -363,8 +361,9 @@ class ContractEnforcer:
         if context:
             ctx = context
         else:
+            assert tool_name is not None  # guaranteed by guard above
             ctx = ActionContext(
-                tool_name=tool_name,  # non-null asserted above
+                tool_name=tool_name,
                 arguments=arguments or {},
                 estimated_cost_cents=estimated_cost_cents,
                 paths_touched=paths_touched or [],

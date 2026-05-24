@@ -1,7 +1,6 @@
 """Tests for the enforcement module."""
 from __future__ import annotations
 
-from unittest.mock import MagicMock
 
 import pytest
 
@@ -13,10 +12,8 @@ from agentcontract.core import (
     GateViolation,
 )
 from agentcontract.enforcement import (
-    AuditTrail,
     ContractEnforcer,
     ContractViolation,
-    _load_contract_from_path,
 )
 from agentcontract.sdk import HermesMCPContext
 
