@@ -25,7 +25,7 @@ jobs:
 
       - name: Lint (ruff)
         run: |
-          pip install ruff
+          pip install ruff==0.15.20
           ruff check agentcontract tests
 
       - name: Type-check (mypy)
